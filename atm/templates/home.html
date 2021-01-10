@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% if admin %}
+                    <h2 class="text-center">Admin Home Page</h2>
+                {% else %}
+                    <h2 class="text-center">Your currant balance is {{ balance }}</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </br>
+
+    <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        Welcome {{username}}
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-8">
+                    {% if admin %}
+                        <br>
+                        <a href="{{ url_for('admin.users') }}">
+                            <button type="button" class="btn btn-block btn-lg btn-primary" >
+                                View All Users
+                            </button>
+                        </a>
+                        <br>
+                        <a href="{{ url_for('admin.home') }}">
+                            <button type="button" class="btn btn-lg btn-block btn-primary" >
+                                new
+                            </button>
+                        </a>
+                    {% else %}
+                        <br>
+                        <a href="{{ url_for('bank.draw') }}">
+                            <button type="button" class="btn btn-block btn-lg btn-primary" >
+                                Draw
+                            </button>
+                        </a>
+                        <br>
+                        <a href="{{ url_for('bank.deposite') }}">
+                            <button type="button" class="btn btn-lg btn-block btn-primary" >
+                                Deposite
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </div>
+    {% for post in posts %}
+        <!--article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted }}</small>
+            </div>
+            <h2><a class="article-title" <href="#">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article-->
+    {% endfor %}
+{% endblock content %}

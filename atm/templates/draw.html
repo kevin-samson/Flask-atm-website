@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+    <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12"><br></div>
+                <div class="col-md-12">
+                    <h3 class="text-center">
+                        Select Amount
+                    </h3>
+                    <br>
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        <div class="row">
+                        <div class="col-md-6">
+                            {{ form.b50(class="btn btn-lg btn-block btn-primary" ) }}
+                            <br>
+                            {{ form.b100(class="btn btn-lg btn-block btn-primary") }}
+                            <br>
+                            {{ form.b250(class="btn btn-lg btn-block btn-primary") }}
+                            <br>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form.b500(class="btn btn-lg btn-block btn-primary") }}
+                            <br>
+                            {{ form.b1000(class="btn btn-lg btn-block btn-primary") }}
+                                <form>
+                                    <div class="form-group">
+
+                                        {{ money.num.label(class="form-control-label") }}
+                                        {% if money.num.errors %}
+                                            {{ money.num(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in money.num.errors %}
+                                                    <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ money.num(class="form-control form-control-lg",placeholder="Custom amount (Numbers only)") }}
+                                        {% endif %}
+
+                                    </div>
+                                    <div>{{ money.submit(class="btn btn-outline-info") }}</div>
+                                </form>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </br>
+{% endblock content %}
