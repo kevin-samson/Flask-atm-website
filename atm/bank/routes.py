@@ -32,7 +32,7 @@ def draw():
             elif form.b1000.data:
                 session["amount"] = 1000
                 return redirect(url_for('bank.confirmation'))
-        if form2.validate_on_submit():
+        if form2.submit.data and form2.validate_on_submit():
             amont2 = form2.num.data
             session["amount"] = amont2
             return redirect(url_for('bank.confirmation'))
@@ -64,8 +64,10 @@ def deposite():
             elif form.b1000.data:
                 session["amount"] = 1000
                 return redirect(url_for('bank.confirmation'))
-        if form2.validate_on_submit():
+
+        if form2.submit.data and form2.validate_on_submit():
             amont2 = form2.num.data
+            print(session)
             session["amount"] = amont2
             return redirect(url_for('bank.confirmation'))
 

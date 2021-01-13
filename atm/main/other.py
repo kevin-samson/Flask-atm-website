@@ -111,6 +111,6 @@ def verfyToken(token):
 
 def view_logs(email):
     id_no = acc_no(email)
-    cur.execute(f"select * from logs where id={id_no}")
+    cur.execute(f"select * from transactions where id={id_no} order by date desc")
     mydb.commit()
     return cur.fetchall()

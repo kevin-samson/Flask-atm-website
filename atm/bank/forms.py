@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, IntegerField
+from wtforms.validators import NumberRange, DataRequired
 
 
 class CusForm(FlaskForm):
-    submit = SubmitField('Submit')
     b50 = SubmitField('50')
     b100 = SubmitField('100')
     b250 = SubmitField('250')
@@ -12,5 +12,5 @@ class CusForm(FlaskForm):
 
 
 class Money(FlaskForm):
-    num = IntegerField('')
+    num = IntegerField('', validators=[NumberRange(1, 100000)])
     submit = SubmitField('Submit')

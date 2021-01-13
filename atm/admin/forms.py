@@ -13,7 +13,7 @@ class UserChangeForm(FlaskForm):
                            validators=[Optional(), Length(min=2, max=20)])
     email = StringField('Email',
                         validators=[Optional(), Email()])
-    submit = SubmitField('Update Account')
+    submit1 = SubmitField('Update Account')
 
     def validate_email(self, email):
         if email.data != session['email']:
@@ -41,7 +41,7 @@ class AddUser(FlaskForm):
     # password = PasswordField('Password', validators=[DataRequired()])
     # confirm_password = PasswordField('Confirm Password',
     # validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Submit')
+    submit2 = SubmitField('Submit')
 
     def validate_email(self, email):
         see = email.data
@@ -56,8 +56,10 @@ class AddUser(FlaskForm):
 
 class DelUser(FlaskForm):
     usr_id = IntegerField('ID', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+    submit3 = SubmitField('Submit')
+
     def validate_id(self, usr_id):
         see = usr_id.data
         if see_id(see):
             raise ValidationError("ID is already taken")
+

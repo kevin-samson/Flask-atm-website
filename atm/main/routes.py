@@ -42,7 +42,7 @@ def reset_request():
     if form.validate_on_submit():
         send_email(form.email.data)
         flash('An email has been sent to reset your password', 'info')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('user.login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
 
 
@@ -59,5 +59,5 @@ def reset_token(token):
         passw = form.password.data
         change_password(user_email, passw)
         flash(f'Password has been changed!, please log-in', 'success')
-        return redirect(url_for('main.login'))
+        return redirect(url_for('user.login'))
     return render_template('reset_token.html', title='Reset Password', form=form)

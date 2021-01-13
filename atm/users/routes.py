@@ -1,6 +1,6 @@
-from flask import Blueprint, session, redirect, url_for, flash, render_template
+from flask import Blueprint, session, redirect, url_for, flash, render_template, request
 
-from atm.main.admin import add_user, UpdateInfo
+from atm.main.admin import add_user, UpdateInfo, log
 from atm.main.other import chk_name, password, username, view_logs
 from atm.users.forms import RegistrationForm, LoginForm, UserChangeForm
 
@@ -19,7 +19,7 @@ def register():
         add_user(user, email, passw)
         flash(f'Account created for {form.username.data}! please log-in', 'success')
 
-        return redirect(url_for('main.login'))
+        return redirect(url_for('user.login'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -33,6 +33,7 @@ def login():
         passw = form.password.data
         if chk_name(email) == True and passw == password(email):
             session["email"] = email
+            log(f'User with the email {email} has logged in')
             flash('You have been logged in!', 'success')
             return redirect(url_for('main.home'))
         if form.remember.data:
@@ -46,7 +47,12 @@ def login():
 @user.route('/logout')
 def logout():
     if "email" in session:
+        log(f"User with the email {session['email']} logged out")
         session.pop("email", None)
+        return redirect(url_for('user.login'))
+    if "admin" in session:
+        log(f"Admin with the email {session['email']} logged out")
+        session.pop("admin", None)
         return redirect(url_for('user.login'))
 
 
@@ -74,11 +80,11 @@ def account():
             form.username.data = username(session['email'])
             form.email.data = session['email']
         return render_template('account.html', username=username(session['email']), email=session['email'], form=form)
-    return redirect(url_for('main.login'))
+    return redirect(url_for('users.login'))
 
 
 @user.route('/logs')
 def logs():
     if "email" in session:
         return render_template('logs.html', logs=view_logs(session['email']))
-    return redirect(url_for('main.login'))
+    return redirect(url_for('users.login'))
