@@ -11,9 +11,9 @@ class RegistrationForm(FlaskForm):
                            validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=2, max=20)])
     confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+                                     validators=[DataRequired(), EqualTo('password'), Length(min=2, max=20)])
     submit = SubmitField('Sign Up')
 
     def validate_email(self, email):
@@ -37,9 +37,9 @@ class LoginForm(FlaskForm):
 
 class UserChangeForm(FlaskForm):
     username = StringField('Username',
-                           validators=[DataRequired(), Length(min=2, max=20)])
+                           validators=[DataRequired(), Length(min=2, max=20), Length(min=2, max=20)])
     email = StringField('Email',
-                        validators=[DataRequired(), Email()])
+                        validators=[DataRequired(), Email(), Length(min=2, max=20)])
     submit = SubmitField('Update Account')
 
     def validate_email(self, email):
