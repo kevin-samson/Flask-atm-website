@@ -126,3 +126,12 @@ def adm_Update_user(usr_id, username, email):
         cur.execute(f"update user set email='{email}' where id='{usr_id}'")
         log(f'User with the id {usr_id} has been changed to {email}')
         mydb.commit()
+
+
+def give_admin_perms(user_id, setting):
+    cur.execute(f'update user set admin={setting} where id={user_id}')
+    mydb.commit()
+    if setting:
+        log(f"{user_id} is now an admin")
+    else:
+        log(f"{user_id} is removed from admin")

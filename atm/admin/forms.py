@@ -1,6 +1,6 @@
 from flask import session
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, IntegerField, PasswordField
+from wtforms import StringField, SubmitField, IntegerField, RadioField
 from wtforms.validators import DataRequired, Length, Email, ValidationError, Optional, EqualTo
 
 from atm.main.admin import see_email, see_username, see_id
@@ -58,8 +58,18 @@ class DelUser(FlaskForm):
     usr_id = IntegerField('ID', validators=[DataRequired()])
     submit3 = SubmitField('Submit')
 
-    def validate_id(self, usr_id):
+    def validate_usr_id(self, usr_id):
+        see = usr_id.data
+        if not see_id(see):
+            raise ValidationError("ID does not exist")
+
+
+class MakeAdmin(FlaskForm):
+    usr_id = IntegerField('ID', validators=[DataRequired()])
+    select = RadioField(choices=[('yes', 'Make Admin'), ('no', 'Remove Admin')], validators=[DataRequired()])
+    submit4 = SubmitField('Submit')
+
+    def validate_usr_id(self, usr_id):
         see = usr_id.data
         if see_id(see):
-            raise ValidationError("ID is already taken")
-
+            raise ValidationError("ID does not exist")
