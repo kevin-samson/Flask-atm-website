@@ -11,7 +11,7 @@ bank = Blueprint('bank', __name__)
 @bank.route('/draw', methods=['GET', 'POST'])
 def draw():
     if "email" not in session:
-        return redirect(url_for('main.login'))
+        return redirect(url_for('user.login'))
     else:
         form = CusForm()
         form2 = Money()
@@ -43,7 +43,7 @@ def draw():
 @bank.route('/deposit', methods=['GET', 'POST'])
 def deposite():
     if "email" not in session:
-        return redirect(url_for('main.login'))
+        return redirect(url_for('user.login'))
     else:
         form = CusForm()
         form2 = Money()
@@ -66,6 +66,8 @@ def deposite():
                 return redirect(url_for('bank.confirmation'))
 
         if form2.submit.data and form2.validate_on_submit():
+            if "amount" in session:
+                session.pop("amount", None)
             amont2 = form2.num.data
             print(session)
             session["amount"] = amont2
@@ -86,7 +88,7 @@ def confirmation():
                 return render_template('confirmation.html', amount=session["amount"])
 
         return redirect(url_for('main.home'))
-    return redirect(url_for('main.login'))
+    return redirect(url_for('user.login'))
 
 
 @bank.route('/landing')
@@ -117,4 +119,4 @@ def success():
         else:
             return redirect(url_for('main.home'))
     else:
-        return redirect(url_for('main.login'))
+        return redirect(url_for('user.login'))
