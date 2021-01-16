@@ -22,12 +22,12 @@ def add_user(user, email, password):
 def remove_user(email, usr_id=None):
     if email != '':
         bo = acc_no(email)
-        log(f'User with email {email} has been removed from to the database')
+        log(f'User with email {email} has been removed from the database')
     else:
         bo = usr_id
     cur.execute(f"delete from user where id={bo}")
     mydb.commit()
-    log(f'User with the id {usr_id} has been removed from to the database')
+    log(f'User with the id {usr_id} has been removed from the database')
 
 
 def see_email(email):
@@ -125,12 +125,12 @@ def adm_Update_user(usr_id, username, email):
     else:
         cur.execute(f"update user set username='{username}' where id='{usr_id}'")
         mydb.commit()
-        log(f'User with the id {usr_id} has been changed to {username}')
+        log(f'Username with the id {usr_id} has been changed to {username}')
     if email == '':
         pass
     else:
         cur.execute(f"update user set email='{email}' where id='{usr_id}'")
-        log(f'User with the id {usr_id} has been changed to {email}')
+        log(f'Email with the id {usr_id} has been changed to {email}')
         mydb.commit()
 
 
@@ -138,6 +138,6 @@ def give_admin_perms(user_id, setting):
     cur.execute(f'update user set admin={setting} where id={user_id}')
     mydb.commit()
     if setting:
-        log(f"{user_id} is now an admin")
+        log(f"User with id {user_id} is now an admin")
     else:
-        log(f"{user_id} is removed from admin")
+        log(f"User with id {user_id} is removed from admin")
