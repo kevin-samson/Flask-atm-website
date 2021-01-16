@@ -108,7 +108,13 @@ def view_users():
 
 
 def view_logs():
-    cur.execute(f"select * from transactions order by date desc")
+    cur.execute("select * from transactions order by date desc")
+    mydb.commit()
+    return cur.fetchall()
+
+
+def view_activity():
+    cur.execute("select * from logs order by date desc")
     mydb.commit()
     return cur.fetchall()
 

@@ -60,7 +60,7 @@ class DelUser(FlaskForm):
 
     def validate_usr_id(self, usr_id):
         see = usr_id.data
-        if not see_id(see):
+        if see_id(see):
             raise ValidationError("ID does not exist")
 
 

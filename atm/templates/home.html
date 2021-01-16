@@ -37,7 +37,13 @@
                         <br>
                         <a href="{{ url_for('admin.logs') }}">
                             <button type="button" class="btn btn-lg btn-block btn-primary" >
-                                View All Logs
+                                View Transaction Logs
+                            </button>
+                        </a>
+                        <br>
+                        <a href="{{ url_for('admin.bank_logs') }}">
+                            <button type="button" class="btn btn-lg btn-block btn-primary" >
+                                View Bank Logs
                             </button>
                         </a>
                     {% else %}

@@ -9,7 +9,7 @@
                     </h1>
                 </div>
             </div>
-            {% if admin %}
+            {% if transactions %}
                 <div class="container-fluid">
                 <table class="table table-hover table-bordered">
                     <thead>
@@ -27,6 +27,25 @@
                             <td>{{ i[1] }}</td>
                             <td>{{ i[2] }}</td>
                             <td>{{ i[3] }}</td>
+                        </tr>
+                        </tbody>
+                    {% endfor %}
+                </table>
+                </div>
+            {% elif not transactions %}
+                <div class="container-fluid">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr class="table-secondary">
+                          <th scope="col">Id</th>
+                          <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    {% for i in logs %}
+                        <tbody>
+                        <tr class="table-primary">
+                            <th scope="row">{{ i[0] }}</th>
+                            <td>{{ i[1] }}</td>
                         </tr>
                         </tbody>
                     {% endfor %}

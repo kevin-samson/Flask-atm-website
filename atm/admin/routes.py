@@ -1,7 +1,7 @@
 from flask import Blueprint, session, redirect, url_for, flash, render_template
 
 from atm.main.admin import is_admin, view_users, adm_Update_user, add_user, remove_user, log, view_logs, \
-    give_admin_perms
+    give_admin_perms, view_activity
 from atm.main.other import chk_name, password, username
 from atm.users.forms import LoginForm
 from atm.admin.forms import UserChangeForm, AddUser, DelUser, MakeAdmin
@@ -86,6 +86,14 @@ def users():
 @admin.route("/admin/logs")
 def logs():
     if "email" in session and "admin" in session:
-        return render_template('logs.html', logs=view_logs(), admin=True)
+        return render_template('logs.html', logs=view_logs(), admin=True, transactions=True)
+    else:
+        return redirect(url_for('admin.login'))
+
+
+@admin.route("/admin/bank_logs")
+def bank_logs():
+    if "email" in session and "admin" in session:
+        return render_template('logs.html', logs=view_activity(), admin=True, transactions=False)
     else:
         return redirect(url_for('admin.login'))
