@@ -14,6 +14,8 @@ def create_app(config_class=Config):
     from atm.bank.routes import bank
     from atm.main.routes import main
     from atm.admin.routes import admin
+    from atm.errors.handler import errors
+    app.register_blueprint(errors)
     app.register_blueprint(admin)
     app.register_blueprint(user)
     app.register_blueprint(bank)
