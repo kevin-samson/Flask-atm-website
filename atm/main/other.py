@@ -1,3 +1,5 @@
+from math import ceil
+
 import mysql.connector
 from itsdangerous import TimedJSONWebSignatureSerializer as ser
 
@@ -109,8 +111,25 @@ def verfyToken(token):
     return email(user_id)
 
 
-def view_logs(email):
+def view_logs(email, limit, offset):
     id_no = acc_no(email)
-    cur.execute(f"select * from transactions where id={id_no} order by date desc")
+    cur.execute(f"select * from transactions where id={id_no} order by date desc LIMIT {limit} OFFSET {offset}")
     mydb.commit()
     return cur.fetchall()
+
+
+def total_rows(table, id_no=None):
+    if id_no:
+        cur.execute(f'select count(*) from transactions where id={id_no}')
+        mydb.commit()
+    else:
+        cur.execute(f'select count(*) from {table}')
+        mydb.commit()
+    return cur.fetchall()[0][0]
+
+
+def find_offset(page, table, per_page=7, id_no=None):
+    pages = int(ceil(total_rows(table, id_no) / float(per_page)))
+    offset = (page - 1) * per_page
+    limit = 7 if page == pages else per_page
+    return limit, offset, pages

@@ -1,5 +1,5 @@
 import mysql.connector
-from atm.main.other import acc_no
+from atm.main.other import acc_no, total_rows
 
 mydb = mysql.connector.connect(host="localhost", user="root", passwd="123456", database="atm1",
                                auth_plugin='mysql_native_password')
@@ -9,6 +9,22 @@ cur = mydb.cursor(buffered=True)
 def log(message):
     cur.execute(f'insert into logs(description) values("{message}")')
     mydb.commit()
+
+
+def iter_pages(page, pages, left_edge=2, left_current=2, right_current=5, right_edge=2):
+    last = 0
+    for num in range(1, pages + 1):
+        if (
+                num <= left_edge
+                or (
+                page - left_current - 1 < num < page + right_current
+        )
+                or num > pages - right_edge
+        ):
+            if last + 1 != num:
+                yield None
+            yield num
+            last = num
 
 
 def add_user(user, email, password):
@@ -101,21 +117,17 @@ def is_admin(email):
             return False
 
 
-def view_users():
-    cur.execute(f"select * from user")
-    mydb.commit()
-    return cur.fetchall()
-
-
-def view_logs():
-    cur.execute("select * from transactions order by date desc")
-    mydb.commit()
-    return cur.fetchall()
-
-
-def view_activity():
-    cur.execute("select * from logs order by date desc")
-    mydb.commit()
+def view_activity(table, limit=None, offset=None):
+    if limit or offset:
+        if table == 'user':
+            cur.execute(f"SELECT * FROM {table} LIMIT {limit} OFFSET {offset}")
+            mydb.commit()
+        else:
+            cur.execute(f"SELECT * FROM {table} order by date desc LIMIT {limit} OFFSET {offset} ")
+            mydb.commit()
+    else:
+        cur.execute(f"SELECT * FROM {table}")
+        mydb.commit()
     return cur.fetchall()
 
 

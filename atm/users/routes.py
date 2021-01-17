@@ -1,7 +1,7 @@
 from flask import Blueprint, session, redirect, url_for, flash, render_template, request
 
-from atm.main.admin import add_user, UpdateInfo, log
-from atm.main.other import chk_name, password, username, view_logs
+from atm.main.admin import add_user, UpdateInfo, log, iter_pages
+from atm.main.other import chk_name, password, username, view_logs, find_offset, acc_no
 from atm.users.forms import RegistrationForm, LoginForm, UserChangeForm
 
 user = Blueprint('user', __name__)
@@ -86,5 +86,8 @@ def account():
 @user.route('/logs')
 def logs():
     if "email" in session:
-        return render_template('logs.html', logs=view_logs(session['email']))
+        page = request.args.get('page', 1, type=int)
+        limit, offset, pages = find_offset(page, table='logs', id_no=acc_no(session['email']))
+        return render_template('logs.html', logs=view_logs(session['email'], limit=limit, offset=offset),
+                               page=page, pages=iter_pages(page, pages))
     return redirect(url_for('users.login'))

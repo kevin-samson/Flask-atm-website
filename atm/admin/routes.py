@@ -1,10 +1,10 @@
-from flask import Blueprint, session, redirect, url_for, flash, render_template
+from flask import Blueprint, session, redirect, url_for, flash, render_template, request
 
-from atm.main.admin import is_admin, view_users, adm_Update_user, add_user, remove_user, log, view_logs, \
-    give_admin_perms, view_activity
-from atm.main.other import chk_name, password, username
-from atm.users.forms import LoginForm
 from atm.admin.forms import UserChangeForm, AddUser, DelUser, MakeAdmin
+from atm.main.admin import is_admin, adm_Update_user, add_user, remove_user, log, \
+    give_admin_perms, view_activity, iter_pages
+from atm.main.other import chk_name, password, username, find_offset
+from atm.users.forms import LoginForm
 
 admin = Blueprint('admin', __name__)
 
@@ -77,7 +77,7 @@ def users():
                 give_admin_perms(make_admin.usr_id.data, False)
             return redirect(url_for('admin.users'))
 
-        return render_template('user.html', users=view_users(), admin=True, user_form=form, add_form=add_form,
+        return render_template('user.html', users=view_activity('user'), admin=True, user_form=form, add_form=add_form,
                                del_form=delete_form, make_admin=make_admin)
     else:
         return redirect(url_for('admin.login'))
@@ -86,7 +86,10 @@ def users():
 @admin.route("/admin/logs")
 def logs():
     if "email" in session and "admin" in session:
-        return render_template('logs.html', logs=view_logs(), admin=True, transactions=True)
+        page = request.args.get('page', 1, type=int)
+        limit, offset, pages = find_offset(page, table='transactions')
+        return render_template('logs.html', logs=view_activity('transactions', limit=limit, offset=offset), admin=True,
+                               transactions=True, pages=iter_pages(page, pages), page=page)
     else:
         return redirect(url_for('admin.login'))
 
@@ -94,6 +97,9 @@ def logs():
 @admin.route("/admin/bank_logs")
 def bank_logs():
     if "email" in session and "admin" in session:
-        return render_template('logs.html', logs=view_activity(), admin=True, transactions=False)
+        page = request.args.get('page', 1, type=int)
+        limit, offset, pages = find_offset(page, table='logs')
+        return render_template('logs.html', logs=view_activity('logs', limit=limit, offset=offset), admin=True,
+                               transactions=False, pages=iter_pages(page, pages), page=page)
     else:
         return redirect(url_for('admin.login'))

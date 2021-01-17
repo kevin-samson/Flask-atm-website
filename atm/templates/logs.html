@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-        <br>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
@@ -61,7 +60,7 @@
                           <th scope="col">Date</th>
                         </tr>
                     </thead>
-                    {% for i in logs %}
+                    {% for i,_ in logs %}
                         <tbody>
                         <tr class="table-primary">
                             <th scope="row">{{ i[1] }}</th>
@@ -73,6 +72,31 @@
                 </table>
             {% endif %}
             </div>
+            {% for page_num in pages %}
+                  {% if page_num %}
+                        {% if transactions%}
+                            {% if page == page_num %}
+                                <a class="btn btn-info mb-4" href="{{ url_for('admin.logs', page=page_num) }}">{{ page_num }}</a>
+                            {% else %}
+                                <a class="btn btn-outline-info mb-4" href="{{ url_for('admin.logs', page=page_num) }}">{{ page_num }}</a>
+                            {% endif %}
+                        {% elif not transactions and admin %}
+                            {% if page == page_num %}
+                                <a class="btn btn-info mb-4" href="{{ url_for('admin.bank_logs', page=page_num) }}">{{ page_num }}</a>
+                            {% else %}
+                                <a class="btn btn-outline-info mb-4" href="{{ url_for('admin.bank_logs', page=page_num) }}">{{ page_num }}</a>
+                            {% endif %}
+                        {% else %}
+                            {% if page == page_num %}
+                                <a class="btn btn-info mb-4" href="{{ url_for('user.logs', page=page_num) }}">{{ page_num }}</a>
+                            {% else %}
+                                <a class="btn btn-outline-info mb-4" href="{{ url_for('user.logs', page=page_num) }}">{{ page_num }}</a>
+                            {% endif %}
+                        {% endif %}
+                  {% else %}
+                    ...
+                  {% endif %}
+            {% endfor %}
         </div>
 
 {% endblock content %}

@@ -1,15 +1,15 @@
 import mysql.connector
-import datetime
+
+from atm.main.other import acc_no
 
 mydb = mysql.connector.connect(host="localhost", user="root", passwd="123456", database="atm1",
                                auth_plugin='mysql_native_password')
 cur = mydb.cursor(buffered=True)
 
-cur.execute("select * from logs where id=10")
-lst=cur.fetchall()
-newl = []
-for i in lst[0]:
-    print(i)
-    newl.append(i)
+def view_logs():
 
-print(newl)
+    cur.execute(f"select * from transactions where id=35 order by date desc;select count(*) from logs")
+    mydb.commit()
+    return cur.fetchall()
+
+print(view_logs())
