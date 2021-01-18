@@ -10,23 +10,22 @@
                     </h3>
                     <br>
                     <form method="POST" action="">
-                        {{ form.hidden_tag() }}
                         <div class="row">
                         <div class="col-md-6">
-                            {{ form.b50(class="btn btn-lg btn-block btn-primary" ) }}
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=50, mode=type) }}">50</a>
                             <br>
-                            {{ form.b100(class="btn btn-lg btn-block btn-primary") }}
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=100, mode=type) }}">100</a>
                             <br>
-                            {{ form.b250(class="btn btn-lg btn-block btn-primary") }}
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=250, mode=type) }}">250</a>
                             <br>
                         </div>
                         <div class="col-md-6">
-                            {{ form.b500(class="btn btn-lg btn-block btn-primary") }}
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=500, mode=type) }}">500</a>
                             <br>
-                            {{ form.b1000(class="btn btn-lg btn-block btn-primary") }}
-                                <form>
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=1000, mode=type) }}">1000</a>
+                                <form method="POST" action="">
                                     <div class="form-group">
-
+                                        {{ money.hidden_tag() }}
                                         {{ money.num.label(class="form-control-label") }}
                                         {% if money.num.errors %}
                                             {{ money.num(class="form-control form-control-lg is-invalid") }}
@@ -38,7 +37,6 @@
                                         {% else %}
                                             {{ money.num(class="form-control form-control-lg",placeholder="Custom amount (Numbers only)") }}
                                         {% endif %}
-                                        <small id="emailHelp" class="form-text text-muted">Note: Click submit insted of pressing enter.(Known issue)</small>
                                     </div>
                                     <div>{{ money.submit(class="btn btn-outline-info") }}</div>
                                 </form>

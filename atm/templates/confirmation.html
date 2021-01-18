@@ -10,7 +10,11 @@
                     {% if amount=='' %}
                         Are you sure you want to delete this account?
                     {% else %}
-                        Do you wish to {{ mode }} {{ amount }} from your account?
+                        {% if draw %}
+                            Do you wish to draw {{ amount }} from your account?
+                        {% else %}
+                            Do you wish to deposit {{ amount }} to your account?
+                        {% endif %}
                     {% endif %}
                 </h3>
             </div>

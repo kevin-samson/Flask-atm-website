@@ -1,4 +1,4 @@
-from flask import Blueprint, session, url_for, render_template, flash
+from flask import Blueprint, session, url_for, render_template, flash, request
 from werkzeug.utils import redirect
 
 from atm.bank.forms import CusForm, Money
@@ -13,31 +13,14 @@ def draw():
     if "email" not in session:
         return redirect(url_for('user.login'))
     else:
-        form = CusForm()
         form2 = Money()
-        if form.validate_on_submit():
-            session["mode"] = "draw"
-            if form.b50.data:
-                session["amount"] = 50
-                return redirect(url_for('bank.confirmation'))
-            elif form.b100.data:
-                session["amount"] = 100
-                return redirect(url_for('bank.confirmation'))
-            elif form.b250.data:
-                session["amount"] = 250
-                return redirect(url_for('bank.confirmation'))
-            elif form.b500.data:
-                session["amount"] = 500
-                return redirect(url_for('bank.confirmation'))
-            elif form.b1000.data:
-                session["amount"] = 1000
-                return redirect(url_for('bank.confirmation'))
         if form2.submit.data and form2.validate_on_submit():
             amont2 = form2.num.data
             session["amount"] = amont2
+            session['mode'] = 'draw'
             return redirect(url_for('bank.confirmation'))
 
-    return render_template('draw.html', title='Draw', form=form, money=form2)
+    return render_template('draw.html', title='Draw', money=form2, type='draw')
 
 
 @bank.route('/deposit', methods=['GET', 'POST'])
@@ -45,35 +28,16 @@ def deposite():
     if "email" not in session:
         return redirect(url_for('user.login'))
     else:
-        form = CusForm()
         form2 = Money()
-        if form.validate_on_submit():
-            session["mode"] = "deposit"
-            if form.b50.data:
-                session["amount"] = 50
-                return redirect(url_for('bank.confirmation'))
-            elif form.b100.data:
-                session["amount"] = 100
-                return redirect(url_for('bank.confirmation'))
-            elif form.b250.data:
-                session["amount"] = 250
-                return redirect(url_for('bank.confirmation'))
-            elif form.b500.data:
-                session["amount"] = 500
-                return redirect(url_for('bank.confirmation'))
-            elif form.b1000.data:
-                session["amount"] = 1000
-                return redirect(url_for('bank.confirmation'))
-
         if form2.submit.data and form2.validate_on_submit():
             if "amount" in session:
                 session.pop("amount", None)
             amont2 = form2.num.data
-            print(session)
             session["amount"] = amont2
+            session['mode'] = 'deposit'
             return redirect(url_for('bank.confirmation'))
 
-    return render_template('draw.html', title='Deposite', form=form, money=form2)
+    return render_template('draw.html', title='Deposite', money=form2, type='deposit')
 
 
 @bank.route('/confirmation')
@@ -81,9 +45,9 @@ def confirmation():
     if "email" in session:
         if "amount" in session:
             if session["mode"] == "draw":
-                return render_template('confirmation.html', amount=session["amount"], mode=session["mode"])
+                return render_template('confirmation.html', amount=session["amount"], mode=session["mode"], draw=True)
             elif session["mode"] == "deposit":
-                return render_template('confirmation.html', amount=session["amount"], mode=session["mode"])
+                return render_template('confirmation.html', amount=session["amount"], mode=session["mode"], draw=False)
             elif session["amount"] == '':
                 return render_template('confirmation.html', amount=session["amount"])
 
@@ -120,3 +84,10 @@ def success():
             return redirect(url_for('main.home'))
     else:
         return redirect(url_for('user.login'))
+
+
+@bank.route('/callback', methods=['GET', 'POST'])
+def callback():
+    session['amount'] = int(request.args.get('amount', type=int))
+    session['mode'] = request.args.get('mode')
+    return redirect(url_for('bank.confirmation'))
