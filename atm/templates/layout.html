@@ -69,9 +69,12 @@
 	<br>
     <main role="main" class="container">
       <div class="row">
-        <br>
+        {% if logs %}
+          <div class="col-md-12">
+        {% else %}
           <div class="col-md-2"></div>
             <div class="col-md-8">
+        {% endif %}
               {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                   {% for category, message in messages %}
