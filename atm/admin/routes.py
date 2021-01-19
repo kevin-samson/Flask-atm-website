@@ -76,9 +76,11 @@ def users():
             elif make_admin.select.data == 'no':
                 give_admin_perms(make_admin.usr_id.data, False)
             return redirect(url_for('admin.users'))
-
-        return render_template('user.html', users=view_activity('user'), admin=True, user_form=form, add_form=add_form,
-                               del_form=delete_form, make_admin=make_admin)
+        page = request.args.get('page', 1, type=int)
+        limit, offset, pages = find_offset(page, table='user')
+        return render_template('user.html', users=view_activity('user', limit=limit, offset=offset),
+                               pages=iter_pages(page, pages), page=page, admin=True,
+                               user_form=form, add_form=add_form, del_form=delete_form, make_admin=make_admin, logs=True)
     else:
         return redirect(url_for('admin.login'))
 
