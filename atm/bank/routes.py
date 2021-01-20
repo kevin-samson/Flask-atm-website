@@ -1,7 +1,7 @@
 from flask import Blueprint, session, url_for, render_template, flash, request
 from werkzeug.utils import redirect
 
-from atm.bank.forms import CusForm, Money
+from atm.bank.forms import Money
 from atm.main.admin import trans_logs, remove_user
 from atm.main.other import *
 
