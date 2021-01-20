@@ -1,5 +1,5 @@
 import mysql.connector
-from atm.main.other import acc_no, total_rows
+from atm.main.other import acc_no, email
 
 mydb = mysql.connector.connect(host="localhost", user="root", passwd="123456", database="atm1",
                                auth_plugin='mysql_native_password')
@@ -96,7 +96,7 @@ def UpdateInfo(n_username, n_email, o_username, o_email):
 
 def change_password(email, password):
     cur.execute(f"update user set password='{password}' where email='{email}'")
-    log(f'User with email {email} changed the password')
+    log(f'User with email {email} changed their password')
     mydb.commit()
 
 
@@ -137,19 +137,18 @@ def adm_Update_user(usr_id, username, email):
     else:
         cur.execute(f"update user set username='{username}' where id='{usr_id}'")
         mydb.commit()
-        log(f'Username with the id {usr_id} has been changed to {username}')
+        log(f'User with the email {email(usr_id)} and id {usr_id} has changed their username to {username}')
     if email == '':
         pass
     else:
         cur.execute(f"update user set email='{email}' where id='{usr_id}'")
-        log(f'Email with the id {usr_id} has been changed to {email}')
-        mydb.commit()
+        log(f'User with the email {email(usr_id)} and id {usr_id} has changed their email to {email}')
 
 
 def give_admin_perms(user_id, setting):
     cur.execute(f'update user set admin={setting} where id={user_id}')
     mydb.commit()
     if setting:
-        log(f"User with id {user_id} is now an admin")
+        log(f"User with the email {email(user_id)} and id {user_id} is now an admin")
     else:
-        log(f"User with id {user_id} is removed from admin")
+        log(f"User with the email {email(user_id)} and id {user_id} is removed from admin")
