@@ -97,18 +97,27 @@ def depositeAmount(name, amount):
         break
 
 
-def makeToken(the_email, exp=1800):
-    s = ser('5791628bb0b13ce0c676dfde280ba245', exp)
-    return s.dumps({'user_id': acc_no(the_email)}).decode('utf-8')
+def makeToken(the_email, exp=1800, amount=None, mode=None):
+    if the_email != '':
+        s = ser('5791628bb0b13ce0c676dfde280ba245', exp)
+        return s.dumps({'email': the_email}).decode('utf-8')
+    elif amount and mode:
+        s = ser('5791628bb0b13ce0c676dfde280ba245', exp)
+        return s.dumps({'mode': mode, 'amount': amount}).decode('utf-8')
 
 
 def verfyToken(token):
     s = ser('5791628bb0b13ce0c676dfde280ba245')
     try:
-        user_id = s.loads(token)['user_id']
+        data = s.loads(token)
     except:
         return None
-    return email(user_id)
+    if data:
+        if 'email' in data:
+            the_email = s.loads(token)['user_id']
+            return the_email
+        elif 'mode' in data:
+            return s.loads(token)['amount'], s.loads(token)['mode']
 
 
 def view_logs(email, limit, offset):

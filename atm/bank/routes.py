@@ -20,7 +20,7 @@ def draw():
             session['mode'] = 'draw'
             return redirect(url_for('bank.confirmation'))
 
-    return render_template('draw.html', title='Draw', money=form2, type='draw')
+    return render_template('draw.html', title='Draw', money=form2, type='draw', tk=makeToken)
 
 
 @bank.route('/deposit', methods=['GET', 'POST'])
@@ -37,7 +37,7 @@ def deposite():
             session['mode'] = 'deposit'
             return redirect(url_for('bank.confirmation'))
 
-    return render_template('draw.html', title='Deposite', money=form2, type='deposit')
+    return render_template('draw.html', title='Deposite', money=form2, type='deposit', tk=makeToken)
 
 
 @bank.route('/confirmation')
@@ -88,6 +88,7 @@ def success():
 
 @bank.route('/callback', methods=['GET', 'POST'])
 def callback():
-    session['amount'] = int(request.args.get('amount', type=int))
-    session['mode'] = request.args.get('mode')
+    # session['amount'] = int(request.args.get('amount', type=int))
+    # session['mode'] = request.args.get('mode')
+    session['amount'], session['mode'] = verfyToken(request.args.get('token'))
     return redirect(url_for('bank.confirmation'))

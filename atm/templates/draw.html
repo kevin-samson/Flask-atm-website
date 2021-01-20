@@ -12,17 +12,17 @@
                     <form method="POST" action="">
                         <div class="row">
                         <div class="col-md-6">
-                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=50, mode=type) }}">50</a>
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', token=tk('', amount=50, mode=type)) }}">50</a>
                             <br>
-                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=100, mode=type) }}">100</a>
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', token=tk('', amount=100, mode=type)) }}">100</a>
                             <br>
-                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=250, mode=type) }}">250</a>
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', token=tk('', amount=250, mode=type)) }}">250</a>
                             <br>
                         </div>
                         <div class="col-md-6">
-                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=500, mode=type) }}">500</a>
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', token=tk('', amount=500, mode=type)) }}">500</a>
                             <br>
-                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', amount=1000, mode=type) }}">1000</a>
+                            <a class="btn btn-lg btn-block btn-primary" href="{{ url_for('bank.callback', token=tk('', amount=1000, mode=type)) }}">1000</a>
                                 <form method="POST" action="">
                                     <div class="form-group">
                                         {{ money.hidden_tag() }}
