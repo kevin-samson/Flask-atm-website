@@ -80,7 +80,7 @@ def account():
             form.username.data = username(session['email'])
             form.email.data = session['email']
         return render_template('account.html', username=username(session['email']), email=session['email'], form=form)
-    return redirect(url_for('users.login'))
+    return redirect(url_for('user.login'))
 
 
 @user.route('/logs')
@@ -90,4 +90,4 @@ def logs():
         limit, offset, pages = find_offset(page, table='logs', id_no=acc_no(session['email']))
         return render_template('logs.html', logs=view_logs(session['email'], limit=limit, offset=offset),
                                page=page, pages=iter_pages(page, pages))
-    return redirect(url_for('users.login'))
+    return redirect(url_for('user.login'))
