@@ -47,9 +47,9 @@
                     <div class="form-group">
                         <legend class="border-bottom mb-4">Other Changes</legend>
                         <p>
-                          <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#updateinfo" aria-expanded="false" aria-controls="collapseExample" style="margin-right: 25px;">
+                          <a class="btn btn-outline-info" type="button" data-toggle="collapse" href="#updateinfo" aria-expanded="false" aria-controls="collapseExample" style="margin-right: 25px;">
                             Update User
-                          </button>
+                          </a>
                           <button class="btn btn-outline-info" type="button" data-toggle="collapse" data-target="#adduser" aria-expanded="false" aria-controls="collapseExample" style="margin-right: 25px;">
                             Add User
                           </button>
@@ -68,7 +68,7 @@
 
 
     <div class="collapse" id="makeadmin">
-      <div class="card card-body">
+      <div class="card card-body col-md-8">
           <form method="POST" action="">
               {{ make_admin.hidden_tag() }}
               <fieldset class="form-group">
@@ -102,7 +102,7 @@
 
 
     <div class="collapse" id="deluser">
-      <div class="card card-body">
+      <div class="card card-body col-md-8">
           <form method="POST" action="">
               {{ del_form.hidden_tag() }}
               <fieldset class="form-group">
@@ -130,7 +130,7 @@
 
 
     <div class="collapse" id="adduser">
-      <div class="card card-body">
+      <div class="card card-body col-md-8">
         <form method="POST" action="">
             {{ add_form.hidden_tag() }}
             <fieldset class="form-group">
@@ -173,7 +173,7 @@
 
 
     <div class="collapse" id="updateinfo">
-      <div class="card card-body">
+      <div class="card card-body col-md-8">
             <form method="POST" action="">
                 {{ user_form.hidden_tag() }}
                 <fieldset class="form-group">
