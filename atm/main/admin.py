@@ -41,9 +41,9 @@ def remove_user(email, usr_id=None):
         log(f'User with email {email} has been removed from the database')
     else:
         bo = usr_id
+        log(f'User with the id {usr_id} has been removed from the database')
     cur.execute(f"delete from user where id={bo}")
     mydb.commit()
-    log(f'User with the id {usr_id} has been removed from the database')
 
 
 def see_email(email):
