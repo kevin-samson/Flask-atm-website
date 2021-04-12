@@ -137,12 +137,12 @@ def adm_Update_user(usr_id, username, email):
     else:
         cur.execute(f"update user set username='{username}' where id='{usr_id}'")
         mydb.commit()
-        log(f'User with the email {email(usr_id)} and id {usr_id} has changed their username to {username}')
+        log(f'Admin has changed the username of {usr_id} to {username}')
     if email == '':
         pass
     else:
         cur.execute(f"update user set email='{email}' where id='{usr_id}'")
-        log(f'User with the email {email(usr_id)} and id {usr_id} has changed their email to {email}')
+        log(f'Admin has changed the email of {usr_id} to {email}')
 
 
 def give_admin_perms(user_id, setting):

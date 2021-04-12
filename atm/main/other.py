@@ -114,7 +114,7 @@ def verfyToken(token):
         return None
     if data:
         if 'email' in data:
-            the_email = s.loads(token)['user_id']
+            the_email = s.loads(token)['email']
             return the_email
         elif 'mode' in data:
             return s.loads(token)['amount'], s.loads(token)['mode']

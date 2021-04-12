@@ -31,6 +31,7 @@ def send_email(user):
 
 This link will expire after 30 min
 """
+    print(url_for('main.reset_token', token=token, _external=True))
     mail.send(msg)
 
 
